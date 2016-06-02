@@ -37,14 +37,4 @@ describe "AppointmentValidator" do
     AppointmentValidator.new.validate(@appointment)
     expect(@appointment.errors[:time]).to include("Appointment cannot overlap another appointment")
   end
-
 end
-
-  # it "raises an error if end time is lower than start time" do
-  #   @time_event.errors.should include("An event can not be finished if it did not start yet...")
-  # end
-
-  # it "raises an error if end time is lower than start time" do
-  # @time_event.valid?
-  # @time_event.errors.full_messages.should include("An event can not be finished if it did not start yet...")
-  # end
