@@ -78,6 +78,5 @@ RSpec.describe "Appointment creation", :type => :request do
 
     expect(response.headers['Content-Type']).to include("application/json")
     expect(response).to_not have_http_status(:created)
-  end                                        
-
+  end                                    
 end

@@ -27,6 +27,14 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def update
+    @appointment = Appointment.find(params[:id])
+    if @appointment.update(appointment_params)
+      render json: @appointment, status: 200
+    else
+      render json: @appointment.erros, status:422
+    end
+  end
   # def destroy
   # end
 

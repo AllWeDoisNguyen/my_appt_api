@@ -15,6 +15,7 @@ class Appointment < ActiveRecord::Base
     if self.start_time.nil? || self.end_time.nil?
       created = false
     elsif self.to_date(:start_time) > Time.now && self.to_date(:end_time) > Time.now
+      appointments = Appointment.all
       created = true
     else
       created = false
