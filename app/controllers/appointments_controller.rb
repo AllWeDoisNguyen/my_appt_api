@@ -18,15 +18,11 @@ class AppointmentsController < ApplicationController
   def create
     appointment = Appointment.new(appointment_params)
 
-    if appointment.valid
       if appointment.save
         render json: appointment, status: 201, location: appointment
       else
-        render json: appointment.errors, status: 422
+        render json: appointment.errors[:time], status: 422
       end
-    else
-      render json: appointment.errors, status: 422
-    end
   end
 
   def update
@@ -38,12 +34,8 @@ class AppointmentsController < ApplicationController
   end
 
   def destroy
-    unless @appointment.nil?
-      @appointment.destroy
-      head 204
-    else
-      head 404
-    end
+    @appointment.destroy
+    head 204
   end
 
   private
