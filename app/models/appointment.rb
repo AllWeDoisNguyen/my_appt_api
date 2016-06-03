@@ -18,12 +18,15 @@ class Appointment < ActiveRecord::Base
     # date object
   end
 
-  def start_time_comparable_to_Time_now
-  start_time_comparable_to_Time_now ||= self.to_date(:start_time)
-  end
   #************************************************************
 
-  
+  def convert_start_time
+    self.to_date(:start_time)
+  end
+
+  def convert_end_time
+    self.to_date(:end_time)
+  end
 
 end
 
