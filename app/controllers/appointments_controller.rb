@@ -5,7 +5,7 @@ class AppointmentsController < ApplicationController
     # present_to_decade_past = Time.now - 10.years
     # present = Time.now
     # range_of_last_decade = present_to_decade_past..present  
-    @appointment = Appointment.where(nil)
+    @appointment = Appointment.where(nil) #creates an anonymous scope
     search_params(params).each do |key, value|
       @appointment = @appointment.public_send(key, value) if value.present?
     end 
@@ -15,6 +15,7 @@ class AppointmentsController < ApplicationController
   def create
     appointment = Appointment.new(appointment_params)
       if appointment.save
+        appointment.change_day = appointment.start_as_datetime(:day)
         render json: appointment, status: 201, location: appointment
       else
         render json: appointment.errors[:time], status: 422
@@ -22,13 +23,13 @@ class AppointmentsController < ApplicationController
   end
 
   def update
-    if @appointment.to_date(:start_time) > Time.now
+    if @appointment.to_date_object(:start_time) > Time.now
       if @appointment.update(appointment_params)
         render json: @appointment, status: 200
       else
         render json: @appointment.errors, status:422
       end
-    else @appointment.to_date(:start_time) < Time.now
+    else @appointment.to_date_object(:start_time) < Time.now
       render json: @appointment.errors, status: 422
     end
   end
@@ -41,7 +42,7 @@ class AppointmentsController < ApplicationController
   private
 
     def appointment_params
-      params.require(:appointment).permit(:first_name, :last_name, :start_time, :end_time, :comments)
+      params.require(:appointment).permit(:first_name, :last_name, :start_time, :end_time, :comments, :day)
     end
 
     def search_params(params)
