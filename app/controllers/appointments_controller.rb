@@ -57,7 +57,7 @@ class AppointmentsController < ApplicationController
       # if end_time = params[:end_time]
       #   @appointments = Appointment.where(end_time: end_time)
       # end
-      @appointments = Appointment.where(appointment_params)
+      # @appointments = Appointment.where(appointment_params)
       @appointments = Appointment.find(params[:id])
     end
 end
