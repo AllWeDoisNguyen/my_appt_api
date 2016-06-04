@@ -1,6 +1,6 @@
 class Appointment < ActiveRecord::Base
   include ActiveModel::Validations
-  validates_with AppointmentValidator
+  validates_with AppointmentValidator, on: :create
   validates :start_time, presence: true
   validates :end_time, presence: true
   validates :first_name, presence: true
@@ -10,6 +10,7 @@ class Appointment < ActiveRecord::Base
   scope :first_name, -> (first_name) { where first_name: first_name }
   scope :last_name, -> (last_name) { where last_name: last_name }
   scope :comments, -> (comments) { where comments: comments }
+  scope :full_name, -> (full_name) {where full_name: full_name}
 
 
   #*********Converting Start and End Time to be able to parse***********************************
@@ -36,5 +37,21 @@ class Appointment < ActiveRecord::Base
     self.day = value
     # sets the appt day as datetime if called as appointment.day = appointment.start_as_datetime(:day)
   end
+
+  def full_name
+    "#{self.first_name}, #{self.last_name}"
+    #=> getter method that returns the first and last name in a string
+  end
+
+  def full_name=(value) # should equal the string of the full name user gives
+    self.first_name, self.last_name = value.to_s.split(" ", 2)
+    # sets the appt day as datetime if called as appointment.day = appointment.start_as_datetime(:day)
+  end
+
+  # def to_param
+  #   full_name
+  # end
+
+
 end
 
