@@ -10,7 +10,10 @@ RSpec.describe "Appointment Index", :type => :request do
     expect(response).to have_http_status(200)
   end 
 
-  # it "lists appointments by first name" do
-  #   get "/appointments"
+  it "lists appointments by day" do
+    get "/appointments"
+    expect(response.headers['Content-Type']).to include("application/json")
+    expect(response).to have_http_status(200)
+  end
 
 end

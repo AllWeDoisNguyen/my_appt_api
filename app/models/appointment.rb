@@ -5,12 +5,13 @@ class Appointment < ActiveRecord::Base
   validates :end_time, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
-  scope :start_time, -> (start_time) { where start_time: start_time }
-  scope :end_time, -> (end_time) { where end_time: end_time }
-  scope :first_name, -> (first_name) { where first_name: first_name }
-  scope :last_name, -> (last_name) { where last_name: last_name }
-  scope :comments, -> (comments) { where comments: comments }
-  scope :full_name, -> (full_name) {where full_name: full_name}
+  scope :start_time, lambda { |start_time| where(:start_time => start_time) }
+  scope :end_time, lambda { |end_time| where(:end_time => end_time) }
+  scope :first_name, lambda { |first_name| where(:first_name => first_name) }
+  scope :last_name, lambda { |last_name| where(:last_name => last_name) }
+  scope :comments, lambda { |comments| where(:comments => comments) }
+  scope :full_name, lambda { |full_name| where(:full_name => full_name) }
+  scope :day, lambda { where('day >= ?', Time.now) }
 
 
   #*********Converting Start and End Time to be able to parse***********************************
@@ -45,7 +46,7 @@ class Appointment < ActiveRecord::Base
 
   def full_name=(value) # should equal the string of the full name user gives
     self.first_name, self.last_name = value.to_s.split(" ", 2)
-    # sets the appt day as datetime if called as appointment.day = appointment.start_as_datetime(:day)
+    # sets full_name to the full name params
   end
 
   # def to_param

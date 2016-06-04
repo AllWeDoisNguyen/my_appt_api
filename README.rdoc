@@ -17,17 +17,18 @@ Technology Choices
   
 
 List
-- GET request = https://desolate-fjord-24171.herokuapp.com/appointments
+- GET request = https://carecloudapi.herokuapp.com/appointments
 - Filtering
-  - By Start time GET Request = 'https://desolate-fjord-24171.herokuapp.com/appointments?start_time='
-  - By End time GET Request = 'https://desolate-fjord-24171.herokuapp.com/appointments?end_time='
+  - By Start time GET Request = 'https://carecloudapi.herokuapp.com/appointments?start_time='
+  - By End time GET Request = 'https://carecloudapi.herokuapp.com/appointments?end_time='
 
 Create
 - first_name, last_name, start_time, end_time are required.
 - comments is an optional string field
 - Example:
-  - post 'https://desolate-fjord-24171.herokuapp.com/',
+  - post 'https://carecloudapi.herokuapp.com/',
     `{ appointment: { first_name: 'Joe', last_name: 'Yeung', start_time: '05/05/16 9:00', end_time: '05/05/16 9:05' } }`
+
 Update
 - By appointment id
 - patch first name https://desolate-fjord-24171.herokuapp.com
