@@ -4,7 +4,7 @@ class AppointmentValidator < ActiveModel::Validator
     @appointment = appointment
     if time_is_not_nil?
       if appointment_time_future?
-        @appointments = Appointment.where("day > ?", Time.now - 10.years)
+        @appointments = Appointment.where("day >= ?", Time.now - 10.years)
         @appointments.each do |existing_appointment|
           check_if_end_time_conflicts_existing_appt(existing_appointment)
           check_if_start_time_conflicts_existing_appt(existing_appointment)

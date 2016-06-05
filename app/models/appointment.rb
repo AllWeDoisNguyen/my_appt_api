@@ -11,8 +11,8 @@ class Appointment < ActiveRecord::Base
   scope :last_name, lambda { |last_name| where(:last_name => last_name) }
   scope :comments, lambda { |comments| where(:comments => comments) }
   scope :full_name, lambda { |full_name| where(:full_name => full_name) }
-  scope :day, lambda { where('day >= ?', Time.now) }
-
+  scope :day, lambda { |day| where(:day => day) }          #('day >= ?', Time.now - 5.years) }
+  scope :id, lambda { |id| where(:id => id) }
 
   #*********Converting Start and End Time to be able to parse***********************************
   def to_date_object(time)
@@ -40,8 +40,10 @@ class Appointment < ActiveRecord::Base
   end
 
   def full_name
-    "#{self.first_name}, #{self.last_name}"
+    "#{self.first_name} #{self.last_name}"
     #=> getter method that returns the first and last name in a string
+    p full_name
+    p "----full name ----"
   end
 
   def full_name=(value) # should equal the string of the full name user gives

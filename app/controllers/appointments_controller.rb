@@ -5,12 +5,40 @@ class AppointmentsController < ApplicationController
     # present_to_decade_past = Time.now - 10.years
     # present = Time.now
     # range_of_last_decade = present_to_decade_past..present  
-    p search_params(params)
-    @appointment = Appointment.where(nil) #creates an anonymous scope
+    # p '---show search_params(params)---'
+    # p search_params(params)
+    # listing_by_filtering
+    listing_with_each_criteria
+  end
+
+        @test_appointments = {}
+
+  def listing_by_filtering
+    @appointments = Appointment.where(nil) #creates an anonymous scope
     search_params(params).each do |key, value|
-      @appointment = @appointment.public_send(key, value) if value.present? #public send executes : appointment.first_name, appointment.start_time
+      if value.present?
+        # @all_appointments = Appointment.where(key => value)  
+        @last_appointment = @appointments.public_send(key, value)  #public send executes : appointment.first_name, appointment.start_time
+        @appointments << @last_appointment
+      end
     end 
-    render json: @appointment, status: 200
+    render json: @appointments, status: 200
+        # p @appointments.public_send(key, value)
+        p "------appointments of public send key and value---------"
+        p @all_appointments
+        p "-------all appointments --------------"
+        p @last_appointment
+        p "--------last appointment--------------"
+        p @test_appointments
+  end  
+
+  def listing_with_each_criteria  #returns all appointments that have each criteria individually
+    @appointments = Appointment.where(nil) #creates an anonymous scope
+    search_params(params).each do |key, value|
+      #all the results in one place
+      @appointments += @appointments.public_send(key, value) if value.present? #public send executes : appointment.first_name, appointment.start_time
+    end 
+    render json: @appointments, status: 200
   end
 
   def create
@@ -21,6 +49,10 @@ class AppointmentsController < ApplicationController
       else
         render json: appointment.errors[:time], status: 422
       end
+  end
+
+  def show
+    index
   end
 
   def update
@@ -51,11 +83,14 @@ class AppointmentsController < ApplicationController
     def appointment_params
       params.require(:appointment).permit(:first_name, :last_name, :start_time, :end_time, :comments, :day, :full_name, :id)
     end
-
+#********************************************************************************************************
+#*********This method iterates through the params and returns a hash of the given keys*********************
     def search_params(params)
       params.slice(:first_name, :last_name, :start_time, :end_time, :comments, :day, :full_name, :id)
     end
-
+#*********this is useful to limiting the options hash(params) to just valid keys *************************************
+#*********so we can pass these keys to the index method *********************************
+#************************************************************************************************
     def set_appointment
    
       # @appointment = Appointment.where(nil) #creates an anonymous scope
