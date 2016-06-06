@@ -8,15 +8,15 @@ class AppointmentsController < ApplicationController
     p search_params(params)
     @appointment = Appointment.where(nil) #creates an anonymous scope
     search_params(params).each do |key, value|
-      @appointment = @appointment.public_send(key, value) if value.present? #public send executes : appointment.first_name, appointment.start_time
+      @appointment += @appointment.public_send(key, value) if value.present? #public send executes : appointment.first_name, appointment.start_time
     end 
     render json: @appointment, status: 200
   end
 
   def create
     appointment = Appointment.new(appointment_params)
+    appointment.day = appointment.start_as_datetime(:day)
       if appointment.save
-        appointment.change_day = appointment.start_as_datetime(:day)
         render json: appointment, status: 201, location: appointment
       else
         render json: appointment.errors[:time], status: 422

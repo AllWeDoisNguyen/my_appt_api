@@ -16,12 +16,12 @@ class Appointment < ActiveRecord::Base
 
   #*********Converting Start and End Time to be able to parse***********************************
   def to_date_object(time)
-    to_date_object ||= DateTime.strptime(self.public_send(time), '%m/%d/%Y %H:%M') + 2000.years
+    to_date_object ||= DateTime.strptime("#{self.public_send(time)}", '%m/%d/%Y %H:%M') + 2000.years
     # date object
   end
 
   def start_as_datetime(day)
-    start_as_datetime ||= DateTime.strptime(self.public_send(day), '%m/%d/%Y') + 2000.years
+    start_as_datetime ||= DateTime.strptime("#{self.public_send(day)}", '%m/%d/%Y') + 2000.years
   end
 
   def start_time_comparable_to_Time_now
@@ -34,7 +34,14 @@ class Appointment < ActiveRecord::Base
     #=> gets just the day, ex: "11/01/13"
   end
 
-  def change_day=(value)
+  # @appointment.where(day: "11/01/13") should return the relation object of 
+  # appointments with that day in this string format. The change_day method underneath
+  # saves the appointment day column as a DateTime object
+  # Appointment.where(day: "#{DateTime.strptime('11/01/13', '%m/%d/%Y') + 2000.years}")
+  # returns all appointments with that day
+
+
+  def day=(value)
     self.day = value
     # sets the appt day as datetime if called as appointment.day = appointment.start_as_datetime(:day)
   end
@@ -52,7 +59,6 @@ class Appointment < ActiveRecord::Base
   # def to_param
   #   full_name
   # end
-
 
 end
 

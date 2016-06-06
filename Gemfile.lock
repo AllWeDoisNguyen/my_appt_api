@@ -20,6 +20,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    active_model_serializers (0.9.3)
+      activemodel (>= 3.2)
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
@@ -53,6 +55,12 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.7.0)
+    factory_girl (4.7.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.7.0)
+      factory_girl (~> 4.7.0)
+      railties (>= 3.0.0)
+    ffaker (2.2.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     hirb (0.7.3)
@@ -163,8 +171,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (= 0.9.3)
   byebug
   coffee-rails (~> 4.1.0)
+  factory_girl_rails (~> 4.0)
+  ffaker
   hirb (~> 0.7.3)
   jbuilder (~> 2.0)
   jquery-rails

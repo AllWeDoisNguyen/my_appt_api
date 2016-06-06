@@ -26,6 +26,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'puma'
 
 gem 'hirb', '~> 0.7.3'
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -34,11 +36,17 @@ gem 'hirb', '~> 0.7.3'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+gem 'active_model_serializers', '0.9.3'
+#-----------serializer to help with rovides a way of creating custom --------------------------------------------
+#------JSON by representing each resource as a class that inherits from ActiveModel::Serializer------------------
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rspec-rails'
+  # helps with storing a database for testing
+  gem "factory_girl_rails", "~> 4.0"
+
+  gem 'ffaker'
 end
 
 group :development do

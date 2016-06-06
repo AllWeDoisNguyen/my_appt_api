@@ -1,6 +1,9 @@
 class AppointmentValidator < ActiveModel::Validator
 
-  def validate(appointment)
+# --------------this happens with you create or save an appointment to the database-------------------
+# --------------start and end times must be present before checking other validations -----------------
+# --------------appointment must be in future before checking other validations -----------------------
+  def validate(appointment) 
     @appointment = appointment
     if time_is_not_nil?
       if appointment_time_future?
