@@ -44,9 +44,9 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   # helps with storing a database for testing
-  # gem "factory_girl_rails", "~> 4.0"
+  gem "factory_girl_rails", "~> 4.0"
 
-  # gem 'ffaker'
+  gem 'ffaker'
 end
 
 group :development do

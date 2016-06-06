@@ -11,7 +11,7 @@ class Appointment < ActiveRecord::Base
   scope :last_name, lambda { |last_name| where(:last_name => last_name) }
   scope :comments, lambda { |comments| where(:comments => comments) }
   scope :full_name, lambda { |full_name| where(:full_name => full_name) }
-  scope :day, lambda { where('day >= ?', Time.now) }
+  scope :day, lambda { |day| where('day >= ?', Time.now) }
 
 
   #*********Converting Start and End Time to be able to parse***********************************
@@ -29,7 +29,7 @@ class Appointment < ActiveRecord::Base
   end
   #************************************************************
 
-  def day
+  def add_day
     self.start_time.split[0]
     #=> gets just the day, ex: "11/01/13"
   end
@@ -41,7 +41,7 @@ class Appointment < ActiveRecord::Base
   # returns all appointments with that day
 
 
-  def day=(value)
+  def add_day=(value)
     self.day = value
     # sets the appt day as datetime if called as appointment.day = appointment.start_as_datetime(:day)
   end
@@ -53,7 +53,7 @@ class Appointment < ActiveRecord::Base
 
   def full_name=(value) # should equal the string of the full name user gives
     self.first_name, self.last_name = value.to_s.split(" ", 2)
-    # sets full_name to the full name params
+    # sets first name and last name when someone assigns a full_name
   end
 
   # def to_param
