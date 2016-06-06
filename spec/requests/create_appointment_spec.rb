@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "Appointment creation", :type => :request do
+  # before :all do
+  #   @appointment = FactoryGirl.build(:appointment, start_time: "11/1/17 9:30", 
+  #                                   end_time: "11/1/17 9:35", 
+  #                                   first_name: "Jude", 
+  #                                   last_name: "Blome"))
+
+  #   post "/appointments"
+  # end
 
   it "creates an appointment" do
    
@@ -80,7 +88,7 @@ RSpec.describe "Appointment creation", :type => :request do
     expect(response).to_not have_http_status(:created)
   end   
 
-  it "adds start time date to day column"
+  it "adds start time date to day column" do
 
     post "/appointments", {:appointment => {:start_time => "01/1/17 7:30",
                                             :end_time => "11/1/10 7:35",
@@ -91,5 +99,6 @@ RSpec.describe "Appointment creation", :type => :request do
     expect(response).to have_http_status(:created)
     expect(Appointment.find_by(start_time: "01/1/17 7:30")).to be_a(Appointment)
     expect(Appointment.find_by(start_time: "01/1/17 7:30")).to include("day: 01/1/17")
+  end
 
 end
