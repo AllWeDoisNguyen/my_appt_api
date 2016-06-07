@@ -2,9 +2,9 @@ class AppointmentValidator < ActiveModel::Validator
 
   def validate(appointment)
     @appointment = appointment
-    if check_if_time_is_not_nil
-      if check_if_appointment_is_future_time
-        @appointments = Appointment.where.not(id: @appointment.id)
+    if time_is_not_nil?
+      if appointment_time_future?
+        @appointments = Appointment.where("day > ?", Time.now - 10.years)
         @appointments.each do |existing_appointment|
           check_if_end_time_conflicts_existing_appt(existing_appointment)
           check_if_start_time_conflicts_existing_appt(existing_appointment)
@@ -14,18 +14,18 @@ class AppointmentValidator < ActiveModel::Validator
     end
   end
 
-  def check_if_time_is_not_nil
+  def time_is_not_nil?
     if @appointment.start_time.nil? || @appointment.end_time.nil?
-      @appointment.errors[:time] << 'Need a start or end time'
+      @appointment.errors[:time] << 'Need a start or end time' 
       false
     else
       true
     end
   end
 
-  def check_if_appointment_is_future_time #***if the appt time is in future check for conflicts
-    unless @appointment.to_date(:start_time) > Time.now && @appointment.to_date(:end_time) > @appointment.to_date(:start_time)
-      @appointment.errors[:time] << 'Appointment cannot be made in the past'
+  def appointment_time_future? #***if the appt time is in future check for conflicts
+    unless @appointment.to_date_object(:start_time) > Time.now && @appointment.to_date_object(:end_time) > @appointment.to_date_object(:start_time)
+      @appointment.errors[:time] << 'Appointment must be made in future'
       false
     else
       true

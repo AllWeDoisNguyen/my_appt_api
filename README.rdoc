@@ -1,28 +1,42 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an API for managing appointments. 
+It can display a list of all appointments or a filtered list of appointments.
+When adding new appointments, the app checks that appointments are in the future and don't overlap existing appointments.
+All appointments must have a start and end date.
 
-Things you may want to cover:
+Technology Choices
+- This API was developed in rails 4
+- Testing
+  - This API was developed using TDD. 
+  - RSPEC testing was done to ensure API functionality
+  - Faster, and easier than testing through CURL commands in the terminal
+- Heroku
+  - Heroku is hosting the API
+  - Postgres was selected as the database as a result
+  
 
-* Ruby version
+List
+- GET request = https://carecloudapi.herokuapp.com/appointments
+- Filtering
+  - By Start time GET Request = 'https://carecloudapi.herokuapp.com/appointments?start_time='
+  - By End time GET Request = 'https://carecloudapi.herokuapp.com/appointments?end_time='
 
-* System dependencies
+Create
+- first_name, last_name, start_time, end_time are required.
+- comments is an optional string field
+- Example:
+  - post 'https://carecloudapi.herokuapp.com/',
+    `{ appointment: { first_name: 'Joe', last_name: 'Yeung', start_time: '05/05/16 9:00', end_time: '05/05/16 9:05' } }`
 
-* Configuration
+Update
+- By appointment id
+- patch first name https://desolate-fjord-24171.herokuapp.com
+         patch "/appointments/#{@appointment.id}", {:appointment => {:last_name => "Bobby"} }
+     
+Delete
+- By appointment id
+- delete https://desolate-fjord-24171.herokuapp.com'appointment_id'
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+For further information, please refer to the RSPEC tests
+Currently working on being able to update and delete appointments by finding appointment without having to know the id
