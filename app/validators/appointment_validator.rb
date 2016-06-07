@@ -7,7 +7,7 @@ class AppointmentValidator < ActiveModel::Validator
     @appointment = appointment
     if time_is_not_nil?
       if appointment_time_future?
-        @appointments = Appointment.within_month
+        @appointments = Appointment.within_year
         # @appointments = Appointment.all
         @appointments.each do |existing_appointment|
           check_if_end_time_conflicts_existing_appt(existing_appointment)

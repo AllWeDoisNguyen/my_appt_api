@@ -20,6 +20,7 @@ class Appointment < ActiveRecord::Base
                                   # Time.zone.strptime(just_the_day, '%m/%d/%Y') + 2000.years) }                                  
 
   scope :within_month, lambda { where(day: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month) }
+  scope :within_year, lambda { where(day: Time.zone.now.beginning_of_year..Time.zone.now.end_of_year) }
   #param.beginning_of_day..param.end_of_day) }
 # --- scopes for the range of appointments to search for
 #---------- where(day: "11/01/13")
