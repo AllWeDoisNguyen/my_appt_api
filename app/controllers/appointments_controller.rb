@@ -2,17 +2,19 @@ class AppointmentsController < ApplicationController
     before_action :set_appointment, only: [:update, :destroy, :show]
    
   def index
-# p @appointment
-# p "-----appointment where scope is anonymous-----------"
-    # appointment = Appointment.where('day <= ?', Time.now) #creates an anonymous scope
-    # @appointments_collection = []
 #-- ex: http://example.com/appointments?date_day=11/1/13&&starts_with=Ruby
-
 # ----------------this creates an anonymous scope and if rendered without params, -------
 # -----------------will return all appointments -----------------------------------------
-      @appointments = Appointment.where(nil) 
-# ------ ex if you want to search all of the database in your use of 'where' ----------------
-# -------- to bypass the default scope of the model ----------------------------------------
+    @appointments = Appointment.where(nil) 
+# -------- this will tack on each scope method you would like to filter the appointments-------
+# ------------ with the values given to the parameters--------------------------
+    search_params(params).each do |key, value|
+      @appointments = @appointments.public_send(key, value) if value.present?
+# @appointments = Appointment.on_this_date("").starts_with("Ruby") # => All active products whose names start with 'Ruby'
+      
+    end 
+    render json: @appointments, status: 200
+  end
 # ----     def unavailable
 # ----       @products = Product.unscoped.where('status <> ?', 'Available')
     #        render 'index'
@@ -38,17 +40,6 @@ class AppointmentsController < ApplicationController
     #   render json: @appointments, status: 200
     # end
 
-# -------- this will tack on each scope method you would like to filter the appointments-------
-# ------------ with the values given to the parameters--------------------------
-# -------
-    search_params(params).each do |key, value|
-    # -----parmspublic send executes : appointment.first_name
-      @appointments = @appointments.public_send(key, value) if value.present?
-      # @products = Product.status("active").starts_with("Ruby") # => All active products whose names start with 'Ruby'
- 
-    end 
-    render json: @appointments, status: 200
-  end
 # all appointments.available 
   # *************************************************************************
   # ********** examples ****************************************************
@@ -103,32 +94,36 @@ class AppointmentsController < ApplicationController
   private
 
     def appointment_params
-      params.require(:appointment).permit(:first_name, :last_name, :start_time, :end_time, :comments, :day, :full_name, :id)
+      params.require(:appointment).permit(:first_name, 
+                                          :last_name, 
+                                          :start_time, 
+                                          :end_time, 
+                                          :comments, 
+                                          :day, 
+                                          :full_name, 
+                                          :id)
     end
-# --------- # A list of the param names that can be used for filtering the Appointment list---------
+# -- list of scope methods that can be used for filtering the Appointment list---------
     def search_params(params)
-      params.slice(:first_name, :last_name, :on_this_date, :end_time, :comments, :day, :full_name, :id)
-    
+      params.slice(:first_name,         
+                    :last_name, 
+                    :on_this_date, 
+                    :end_time, 
+                    :comments, 
+                    :day, 
+                    :full_name, 
+                    :id,
+                    :within_month,
+                    :within_year)
+    end
 #-----------------{ a: 1, b: 2, c: 3, d: 4 }.slice(:a, :b)
 # -----------------=> {:a=>1, :b=>2}
 # ex ?start_time_hour=14:00 (query for all appts at that hour)
-    end
 
     def set_appointment
    
-      # @appointment = Appointment.where(nil) #creates an anonymous scope
-      # search_params(params).each do |key, value| #gives hash of params setting the key and value
-      #   @appointment = @appointment.public_send(key, value) if value.present? #public send executes : appointment.first_name, appointment.start_time #key will be full_name
-      #   end 
-      # # if start_time = params[:start_time]
-      #   @appointments = Appointment.where(start_time: start_time)
 
-      # end
 
-      # if end_time = params[:end_time]
-      #   @appointments = Appointment.where(end_time: end_time)
-      # end
-      # @appointments = Appointment.where(appointment_params)
 #-------http://www.example.com/?foo=1&boo=octopus
 #       then params[:foo] would be "1" and params[:boo] would be "octopus".      
       # sets the appointment to wherever it has the id 
