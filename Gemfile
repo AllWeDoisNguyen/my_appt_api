@@ -27,6 +27,8 @@ gem 'puma'
 
 gem 'hirb', '~> 0.7.3'
 
+gem 'time_zone_ext'
+#so you can add time zone without explicit time zone
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

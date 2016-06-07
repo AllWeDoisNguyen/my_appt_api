@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20160603150714) do
     t.text     "comments"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "day"
+    t.datetime "day"
   end
 
 end

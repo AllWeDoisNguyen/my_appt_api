@@ -1,13 +1,14 @@
 class AppointmentValidator < ActiveModel::Validator
 
-# --------------this happens with you create or save an appointment to the database-------------------
+# --------------this happens with you create or save an appointment to the database (NOT UPDATE/DELETE)-------------------
 # --------------start and end times must be present before checking other validations -----------------
 # --------------appointment must be in future before checking other validations -----------------------
   def validate(appointment) 
     @appointment = appointment
     if time_is_not_nil?
       if appointment_time_future?
-        @appointments = Appointment.where("day > ?", Time.now - 10.years)
+        @appointments = Appointment.within_month
+        # @appointments = Appointment.all
         @appointments.each do |existing_appointment|
           check_if_end_time_conflicts_existing_appt(existing_appointment)
           check_if_start_time_conflicts_existing_appt(existing_appointment)
@@ -27,7 +28,7 @@ class AppointmentValidator < ActiveModel::Validator
   end
 
   def appointment_time_future? #***if the appt time is in future check for conflicts
-    unless @appointment.to_date_object(:start_time) > Time.now && @appointment.to_date_object(:end_time) > @appointment.to_date_object(:start_time)
+    unless @appointment.formatted_to_datetime(:start_time) > Time.now && @appointment.formatted_to_datetime(:end_time) > @appointment.formatted_to_datetime(:start_time)
       @appointment.errors[:time] << 'Appointment must be made in future'
       false
     else
