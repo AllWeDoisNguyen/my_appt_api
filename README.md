@@ -19,7 +19,7 @@ Testing
 Heroku
   Heroku is hosting the API
   Postgres was selected as the database as a result
-
+```
 #### Search Filters Examples
 |                             |      Copy and Paste URL to Try                                            |
 |---------------------------------------------------------------------------------------------------------|
@@ -29,11 +29,8 @@ Heroku
 | start time | '11/1/13 9:30' | 'https://carecloudapi.herokuapp.com/appointments?start_time=11/1/13 9:30' |
 | end time   | '11/1/13 9:30' | 'https://carecloudapi.herokuapp.com/appointments?end_time=11/1/13 9:35'   |
 | day        | '11/1/13'      | 'https://carecloudapi.herokuapp.com/appointments?day=11/1/13'             |
-| hour       | 9:00           | 'https://carecloudapi.herokuapp.com/appointments?hour=9:00'               |
-| year       | 2013           | 'https://carecloudapi.herokuapp.com/appointments?year=2013'               |
-| month      | 11             | 'https://carecloudapi.herokuapp.com/appointments?month=11'                |
 |            |                |                                                                           |
-
+```
 ###GET Request
 
 Get request can be done with criteria or without.
