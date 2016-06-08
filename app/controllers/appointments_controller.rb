@@ -20,14 +20,7 @@ class AppointmentsController < ApplicationController
     #   render json: @appointments, status: 200
     # end
 
-# all appointments.available 
-  # *************************************************************************
-  # ********** examples ****************************************************
-  # 
-  # def attendees
-  #   render json: Appointment.where(first_name: params[:name])
-  # end
-# _______________ Appointment.where( )  
+
 #  def all_day
 #    self.beginning_of_day..self.end_of_day
 #  end
