@@ -7,7 +7,7 @@ class Appointment < ActiveRecord::Base
   validates :last_name, presence: true
 # *********scopes help with indexing the database with just the specific attributes you want**********
 # *********the lambda is just starting the function and block of instructions *************
-  scope :start_time, lambda { |start_time| where(start_time: start_time)}
+  scope :start_time, lambda { |start_time| where(start_time: start_time) }
   scope :end_time, lambda { |end_time| where(end_time: end_time) }
   scope :first_name, lambda { |first_name| where(:first_name => first_name) }
   scope :last_name, lambda { |last_name| where(:last_name => last_name) }
@@ -17,6 +17,7 @@ class Appointment < ActiveRecord::Base
                                   where(day: date_request) }
   scope :within_month, lambda { where(day: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month) }
   scope :within_year, lambda { where(day: Time.zone.now.beginning_of_year..Time.zone.now.end_of_year) }
+  scope :within_decade, lambda { where(day: (Time.zone.now - 10.years)..(Time.zone.now + 1.year)) }
 # ------------- End of Indexing scopes ----------------------------------------------
 
 # *********Converting Start and End Time to be able to parse***********************************
@@ -58,12 +59,12 @@ class Appointment < ActiveRecord::Base
   end
 
   def full_name
-    "#{self.first_name}, #{self.last_name}"
+    "#{self.first_name} #{self.last_name}"
     #=> getter method that returns the first and last name in a string
   end
 
-  def full_name=(value) # should equal the string of the full name user gives
-    self.first_name, self.last_name = value.to_s.split(" ", 2)
+  def set_full_name=(value) # should equal the string of the full name user gives
+    self.full_name = value.to_s
     # sets first name and last name when someone assigns a full_name
   end
 end

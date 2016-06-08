@@ -25,6 +25,7 @@ csv.each do |column|
   a.last_name = column[3]
   a.comments = column[4] if column[4].nil? == false
   a.set_day = "#{a.formatted_to_datetime(:start_time).beginning_of_day}"
+  a.set_full_name = "#{a.full_name}"
   if a.save(validate: false)
     puts "#{a.first_name} #{a.last_name}'s appointment is saved."
     puts "Starts at #{a.start_time} and ends at #{a.end_time}"
