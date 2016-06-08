@@ -32,6 +32,9 @@ class AppointmentsController < ApplicationController
 # run that method with that argument 
   #********************************************************************************
   def create
+    p '=------------this worked----------'
+    p appointment_params
+    p "please work"
     appointment = Appointment.new(appointment_params)
       if appointment.save
         appointment.set_day = appointment.formatted_to_datetime(:start_time).beginning_of_day
@@ -68,20 +71,21 @@ class AppointmentsController < ApplicationController
   private
 
     def appointment_params
-      params.require(:appointment).permit(:first_name, 
-                                          :last_name,
-                                          :full_name, 
-                                          :start_time, 
-                                          :end_time,
-                                          :on_this_date,
-                                          :within_month,
-                                          :within_year,
-                                          :within_decade,  
-                                          :comments, 
-                                          :day, 
-                                          :full_name, 
-                                          :id)
-    end
+      params.permit(:appointment,
+                    :first_name, 
+                    :last_name,
+                    :full_name, 
+                    :start_time, 
+                    :end_time,
+                    :on_this_date,
+                    :within_month,
+                    :within_year,
+                    :within_decade,  
+                    :comments, 
+                    :day, 
+                    :full_name, 
+                    :id)
+end
 # -- list of scope methods that can be used for filtering the Appointment list---------
     def search_params(params)
       params.slice(:first_name,         

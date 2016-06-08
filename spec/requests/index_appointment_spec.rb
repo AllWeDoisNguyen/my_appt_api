@@ -5,7 +5,7 @@ RSpec.describe "Appointment Index", :type => :request do
     @appointment = FactoryGirl.create(:appointment, start_time: "12/1/19 10:30", 
                                     end_time: "12/1/19 10:35", 
                                     first_name: "Jo", 
-                                    last_name: "Blume")
+                                    last_name: "Blume" )
     @appointment_1 = FactoryGirl.create(:appointment)
     # @appointment_1 = FactoryGirl.create(:appointment_1)
     # @appointment_double_name = FactoryGirl.create(:appointment_double_name)
@@ -22,11 +22,11 @@ RSpec.describe "Appointment Index", :type => :request do
     expect(Appointment.find_by(first_name: "Jo")).to be_a(Appointment)
   end 
 
-  it "lists appointments by day" do
-    get "/appointments", {:day => '12/01/19'}
-    expect(response.headers['Content-Type']).to include("application/json")
-    expect(response).to have_http_status(200)
-    expect(response.body).to include("#{@appointment.start_time}")
-  end
+  # it "lists appointments by day" do
+  #   get "/appointments", {:on_this_date => '12/1/19'}
+  #   expect(response.headers['Content-Type']).to include("application/json")
+  #   expect(response).to have_http_status(200)
+  #   expect(response).to include("12/1/19")
+  # end
 
 end
